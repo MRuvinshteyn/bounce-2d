@@ -7,6 +7,8 @@ public class LevelGenerator : MonoBehaviour
 {
     [SerializeField]
     private GameObject wallPrefab;
+    [SerializeField]
+    private GameObject ballPrefab;
 
     private struct Point
     {
@@ -34,7 +36,8 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SpawnWalls(5);
+        SpawnWalls(Random.Range(3, 8));
+        GameObject ball = Instantiate(ballPrefab, new Vector3(), Quaternion.identity);
     }
 
     // Update is called once per frame

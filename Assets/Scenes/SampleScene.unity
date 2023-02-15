@@ -252,3 +252,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 1910033826885632425, guid: e673a280c1ac640f6adc66c7a219b625, type: 3}
+  ballPrefab: {fileID: 2019481703221799527, guid: 82d88964f398c402a8f55552c48e7bde, type: 3}
