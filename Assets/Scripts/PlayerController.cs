@@ -6,10 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     private Vector2 startTouch, endTouch;
 
+    private GameObject gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager");
     }
 
     // Update is called once per frame
@@ -34,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
+        if (collision.collider.gameObject.layer == 6)
+        {
+            gameManager.GetComponent<UIManager>().RemainingBounces--;
+        }
     }
 }
