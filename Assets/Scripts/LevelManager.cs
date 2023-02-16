@@ -1,14 +1,18 @@
+using DG.Tweening.Core;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject wallPrefab;
     [SerializeField]
     private GameObject ballPrefab;
+
+    private List<GameObject> walls;
 
     private struct Point
     {
@@ -36,6 +40,8 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        walls = new List<GameObject>();
+
         SpawnWalls(Random.Range(3, 8));
         GameObject ball = Instantiate(ballPrefab, new Vector3(), Quaternion.identity);
     }
@@ -75,6 +81,8 @@ public class LevelGenerator : MonoBehaviour
 
             Vector2 diff = (point1 - point2).ToVector();
             wall.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
+
+            walls.Add(wall);
         }
     }
 }
