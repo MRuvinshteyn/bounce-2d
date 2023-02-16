@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,13 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.gameObject.layer == 6)
         {
             gameManager.GetComponent<UIManager>().RemainingBounces--;
+            Renderer renderer = collision.collider.GetComponent<Renderer>();
+
+            DOTween.To(() => renderer.material.GetColor("_BaseColor"),
+                (color) => renderer.material.SetColor("_BaseColor", color),
+                Constants.BASE_WALL_COLOR,
+                1f)
+                .From(Constants.HIT_WALL_COLOR);
         }
     }
 }

@@ -1,5 +1,3 @@
-using DG.Tweening.Core;
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,8 +70,6 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < points.Count(); ++i)
         {
             Point point1 = points[i], point2 = points[(i + 1) % points.Count()];
-
-            Instantiate(wallPrefab, point1.ToVector(), Quaternion.identity);
 
             Point midpoint = (point1 + point2) / 2f;
             GameObject wall = Instantiate(wallPrefab, midpoint.ToVector(), Quaternion.identity);
