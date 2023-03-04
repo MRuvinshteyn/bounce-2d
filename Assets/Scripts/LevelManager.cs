@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -23,8 +24,15 @@ public class LevelManager : MonoBehaviour
         get { return remainingBounces; }
         set
         {
+            if (value < 0)
+            {
+                ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
             remainingBounces = value;
-            uiManager.RemainingBounces = $"{remainingBounces}";
+            if (value >= 0)
+            {
+                uiManager.RemainingBounces = $"{remainingBounces}";
+            }
         }
     }
 
@@ -98,6 +106,13 @@ public class LevelManager : MonoBehaviour
             wall.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
 
             walls.Add(wall);
+
+            Renderer renderer = wall.GetComponent<Renderer>();
+            DOTween.To(() => renderer.material.GetFloat("_Edge"),
+                (edge) => renderer.material.SetFloat("_Edge", edge),
+                0f,
+                1f)
+                .From(1f);
         }
 
         int endWallIndex = Random.Range(0, walls.Count());
@@ -111,6 +126,33 @@ public class LevelManager : MonoBehaviour
 
         SpawnWalls(Random.Range(3, 8));
         ball = Instantiate(ballPrefab, new Vector3(), Quaternion.identity);
+        Renderer renderer = ball.GetComponent<Renderer>();
+        DOTween.To(() => renderer.material.GetFloat("_Edge"),
+            (edge) => renderer.material.SetFloat("_Edge", edge),
+            0f,
+            1f)
+            .From(1f);
+    }
 
+    public void EndLevel(bool success)
+    {
+        foreach (GameObject wall in walls)
+        {
+            Renderer renderer = wall.GetComponent<Renderer>();
+            DOTween.To(() => renderer.material.GetFloat("_Edge"),
+                (edge) => renderer.material.SetFloat("_Edge", edge),
+                1f,
+                1f);
+
+            Destroy(wall, 1f);
+        }
+
+        Renderer ballRenderer = ball.GetComponent<Renderer>();
+        DOTween.To(() => ballRenderer.material.GetFloat("_Edge"),
+            (edge) => ballRenderer.material.SetFloat("_Edge", edge),
+            1f,
+            1f);
+
+        Destroy(ball, 1f);
     }
 }

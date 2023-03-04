@@ -46,6 +46,10 @@ public class PlayerController : MonoBehaviour
 
             if (!collision.collider.GetComponent<WallController>().IsEnd)
             {
+                if (levelManager.RemainingBounces < 0)
+                {
+                    levelManager.EndLevel(false);
+                }
                 DOTween.To(() => renderer.material.GetColor("_BaseColor"),
                     (color) => renderer.material.SetColor("_BaseColor", color),
                     Constants.BASE_WALL_COLOR,
@@ -54,6 +58,10 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                if (levelManager.RemainingBounces < 0)
+                {
+                    levelManager.EndLevel(true);
+                }
                 DOTween.To(() => renderer.material.GetColor("_BaseColor"),
                     (color) => renderer.material.SetColor("_BaseColor", color),
                     Constants.END_WALL_COLOR,
