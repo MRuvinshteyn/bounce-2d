@@ -5,22 +5,22 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    private int remainingBounces;
     [SerializeField]
     private TMP_Text remainingBouncesText;
 
-    public int RemainingBounces {
-        get { return remainingBounces; }
-        set
-        {
-            remainingBounces = value;
-            remainingBouncesText.text = $"{remainingBounces}";
-        }
+    public string RemainingBounces
+    {
+        get { return remainingBouncesText.text; }
+        set { remainingBouncesText.text = value; }
     }
+
+    private LevelManager levelManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        levelManager = GetComponent<LevelManager>();
+
         Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 10));
         Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 10));
 

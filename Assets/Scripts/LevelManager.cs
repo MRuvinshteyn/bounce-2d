@@ -11,6 +11,22 @@ public class LevelManager : MonoBehaviour
     private GameObject ballPrefab;
 
     private List<GameObject> walls;
+    private GameObject ball;
+
+    private int currentLevel;
+
+    private UIManager uiManager;
+
+    private int remainingBounces;
+    public int RemainingBounces
+    {
+        get { return remainingBounces; }
+        set
+        {
+            remainingBounces = value;
+            uiManager.RemainingBounces = $"{remainingBounces}";
+        }
+    }
 
     private struct Point
     {
@@ -40,8 +56,11 @@ public class LevelManager : MonoBehaviour
     {
         walls = new List<GameObject>();
 
-        SpawnWalls(Random.Range(3, 8));
-        GameObject ball = Instantiate(ballPrefab, new Vector3(), Quaternion.identity);
+        uiManager = GetComponent<UIManager>();
+
+        currentLevel = 0;
+
+        StartLevel();
     }
 
     // Update is called once per frame
@@ -80,5 +99,18 @@ public class LevelManager : MonoBehaviour
 
             walls.Add(wall);
         }
+
+        int endWallIndex = Random.Range(0, walls.Count());
+        walls[endWallIndex].GetComponent<Renderer>().material.SetColor("_BaseColor", Constants.END_WALL_COLOR);
+        walls[endWallIndex].GetComponent<WallController>().IsEnd = true;
+    }
+
+    private void StartLevel()
+    {
+        RemainingBounces = currentLevel / 3 + 1;
+
+        SpawnWalls(Random.Range(3, 8));
+        ball = Instantiate(ballPrefab, new Vector3(), Quaternion.identity);
+
     }
 }
