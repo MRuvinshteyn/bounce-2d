@@ -77,7 +77,7 @@ public class LevelManager : MonoBehaviour
         List<Point> points = new();
         for (int i = 0; i < numPoints; ++i)
         {
-            float angle = 360 / numPoints * i * Mathf.Deg2Rad;
+            float angle = (360 / numPoints * i + Random.Range(-5f, 5f)) * Mathf.Deg2Rad;
             Point point = new(Mathf.Cos(angle) * 10, Mathf.Sin(angle) * 20);
             points.Add(point);
         }
