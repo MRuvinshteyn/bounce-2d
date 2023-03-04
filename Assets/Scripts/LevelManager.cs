@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class LevelManager : MonoBehaviour
 
     private int currentLevel;
 
-    private UIManager uiManager;
+    private GameUIManager uiManager;
 
     private int remainingBounces;
     public int RemainingBounces
@@ -64,17 +65,11 @@ public class LevelManager : MonoBehaviour
     {
         walls = new List<GameObject>();
 
-        uiManager = GetComponent<UIManager>();
+        uiManager = GetComponent<GameUIManager>();
 
         currentLevel = 0;
 
         StartLevel();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private List<Point> GeneratePoints(int numPoints)
@@ -134,7 +129,7 @@ public class LevelManager : MonoBehaviour
             .From(1f);
     }
 
-    public void EndLevel(bool success)
+    public async void EndLevel(bool success)
     {
         foreach (GameObject wall in walls)
         {
@@ -146,6 +141,7 @@ public class LevelManager : MonoBehaviour
 
             Destroy(wall, 1f);
         }
+        walls.Clear();
 
         Renderer ballRenderer = ball.GetComponent<Renderer>();
         DOTween.To(() => ballRenderer.material.GetFloat("_Edge"),
@@ -154,5 +150,17 @@ public class LevelManager : MonoBehaviour
             1f);
 
         Destroy(ball, 1f);
+
+        await System.Threading.Tasks.Task.Delay(1000);
+        if (!success)
+        {
+            PlayerPrefs.SetInt("LevelsCompleted", currentLevel);
+            SceneManager.LoadScene("GameOver");
+        }
+        else
+        {
+            currentLevel++;
+            StartLevel();
+        }
     }
 }
