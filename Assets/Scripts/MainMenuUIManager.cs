@@ -55,7 +55,7 @@ public class MainMenuUIManager : MonoBehaviour
                     (edge) => renderer.material.SetFloat("_Edge", edge),
                     1f,
                     1f)
-                    .OnComplete(() => Destroy(wall, 1f));
+                    .OnComplete(() => Destroy(wall));
             }
             walls.Clear();
 
@@ -64,9 +64,12 @@ public class MainMenuUIManager : MonoBehaviour
                 (edge) => ballRenderer.material.SetFloat("_Edge", edge),
                 1f,
                 1f)
-                .OnComplete(() => Destroy(ball, 1f));
+                .OnComplete(() => Destroy(ball));
 
-            await System.Threading.Tasks.Task.Delay(1000);
+            while (ball != null)
+            {
+                await System.Threading.Tasks.Task.Delay(50);
+            }
             SceneManager.LoadScene("Game");
         });
     }

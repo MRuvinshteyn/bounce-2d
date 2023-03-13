@@ -155,6 +155,8 @@ MonoBehaviour:
   levelsCompletedText: {fileID: 122496799}
   highScoreText: {fileID: 1280558816}
   playAgainButton: {fileID: 726789969}
+  demoBallPrefab: {fileID: 2019481703221799527, guid: 438e0c595ae514ed693dcee6a1c404b4, type: 3}
+  wallPrefab: {fileID: 1910033826885632425, guid: e673a280c1ac640f6adc66c7a219b625, type: 3}
 --- !u!4 &69113475
 Transform:
   m_ObjectHideFlags: 0
@@ -751,7 +753,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
