@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -137,9 +136,8 @@ public class LevelManager : MonoBehaviour
             DOTween.To(() => renderer.material.GetFloat("_Edge"),
                 (edge) => renderer.material.SetFloat("_Edge", edge),
                 1f,
-                1f);
-
-            Destroy(wall, 1f);
+                1f)
+                .OnComplete(() => Destroy(wall, 1f));
         }
         walls.Clear();
 
@@ -147,9 +145,8 @@ public class LevelManager : MonoBehaviour
         DOTween.To(() => ballRenderer.material.GetFloat("_Edge"),
             (edge) => ballRenderer.material.SetFloat("_Edge", edge),
             1f,
-            1f);
-
-        Destroy(ball, 1f);
+            1f)
+            .OnComplete(() => Destroy(ball, 1f));
 
         await System.Threading.Tasks.Task.Delay(1000);
         if (!success)
