@@ -7,12 +7,14 @@ public class PlayerController : MonoBehaviour
 {
     private Vector2 startTouch, endTouch;
 
+    private LineRenderer lineRenderer;
     private GameObject gameManager;
     private LevelManager levelManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        lineRenderer = GetComponent<LineRenderer>();
         gameManager = GameObject.Find("GameManager");
         levelManager = gameManager.GetComponent<LevelManager>();
     }
@@ -28,11 +30,21 @@ public class PlayerController : MonoBehaviour
             {
                 startTouch = Camera.main.ScreenToWorldPoint(touch.position);
             }
+            else if (touch.phase == TouchPhase.Moved && startTouch != null)
+            {
+                lineRenderer.positionCount = 2;
+                lineRenderer.SetPosition(0, transform.position);
+                Vector2 currTouch = Camera.main.ScreenToWorldPoint(touch.position);
+                Vector3 direction = currTouch - startTouch;
+                lineRenderer.SetPosition(1, transform.position - direction.normalized * 5);
+            }
             else if (touch.phase == TouchPhase.Ended)
             {
                 endTouch = Camera.main.ScreenToWorldPoint(touch.position);
                 Vector2 direction = startTouch - endTouch;
                 GetComponent<Rigidbody2D>().velocity = direction.normalized * 10;
+
+                lineRenderer.positionCount = 0;
             }
         }
     }
