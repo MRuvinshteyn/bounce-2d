@@ -155,6 +155,10 @@ public class LevelManager : MonoBehaviour
         if (!success)
         {
             PlayerPrefs.SetInt("LevelsCompleted", currentLevel);
+            if (currentLevel > PlayerPrefs.GetInt("HighScore", 0))
+            {
+                PlayerPrefs.SetInt("HighScore", currentLevel);
+            }
             SceneManager.LoadScene("GameOver");
         }
         else
